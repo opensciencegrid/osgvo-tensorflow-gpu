@@ -58,10 +58,10 @@ echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
 echo "/usr/local/cuda/extras/CUPTI/lib64/" >/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version
-RUN pip install --upgrade tensorflow-gpu
+pip install --upgrade tensorflow-gpu
 
 # keras
-RUN pip install --upgrade keras
+pip install --upgrade keras
 
 # build info
 echo "Timestamp:" `date --utc` | tee /image-build-info.txt
