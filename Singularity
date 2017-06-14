@@ -44,8 +44,8 @@ python -m ipykernel.kernelspec
 # install cuda
 # The driver version must match exactly what's installed on the GPU nodes, so install it separately
 cd /tmp && \
-    wget https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run -o /dev/null && \
-    wget http://us.download.nvidia.com/XFree86/Linux-x86_64/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
+    wget -nv https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run -o /dev/null && \
+    wget -nv http://us.download.nvidia.com/XFree86/Linux-x86_64/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
 
 # Make the run file executable and extract
 # Install CUDA drivers (silent, no kernel)
@@ -58,11 +58,10 @@ echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
 echo "/usr/local/cuda/extras/CUPTI/lib64/" >/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version
-pip --no-cache-dir install \A
-    http://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp27-none-linux_x86_64.whl
+RUN pip install --upgrade tensorflow-gpu
 
 # keras
-RUN pip install keras
+RUN pip install --upgrade keras
 
 # build info
 echo "Timestamp:" `date --utc` | tee /image-build-info.txt
