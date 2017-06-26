@@ -1,6 +1,9 @@
 bootstrap:docker
 From:ubuntu
 
+% files
+environment /environment
+
 %post
 
 export DRIVER_VERSION=375.66
@@ -55,13 +58,18 @@ cd /tmp && chmod +x cuda_8.0.44_linux-run NVIDIA-Linux-x86_64-$DRIVER_VERSION.ru
     rm -rf /tmp/cuda* /tmp/NVIDIA*
 
 echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
-echo "/usr/local/cuda/extras/CUPTI/lib64/" >/etc/ld.so.conf.d/cuda.conf
+echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version
 pip install --upgrade tensorflow-gpu
 
 # keras
 pip install --upgrade keras
+
+# make sure we have a way to bind host provided libraries
+# see https://github.com/singularityware/singularity/issues/611
+mkdir -p /host-libs
+echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
 
 # build info
 echo "Timestamp:" `date --utc` | tee /image-build-info.txt

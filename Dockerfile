@@ -4,6 +4,8 @@ FROM ubuntu
 
 MAINTAINER Mats Rynge <rynge@isi.edu>
 
+ADD environment /environment
+
 ENV DRIVER_VERSION 375.66
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -60,13 +62,18 @@ RUN cd /tmp && chmod +x cuda_8.0.44_linux-run NVIDIA-Linux-x86_64-$DRIVER_VERSIO
 RUN echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
 
 # For CUDA profiling, TensorFlow requires CUPTI.
-RUN echo "/usr/local/cuda/extras/CUPTI/lib64/" >/etc/ld.so.conf.d/cuda.conf
+RUN echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version.
 RUN pip install --upgrade tensorflow-gpu
 
 # keras
 RUN pip install --upgrade keras
+
+# make sure we have a way to bind host provided libraries
+# see https://github.com/singularityware/singularity/issues/611
+RUN mkdir -p /host-libs && \
+    echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
 
 # build info
 RUN echo "Timestamp:" `date --utc` | tee /image-build-info.txt
