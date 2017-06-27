@@ -1,13 +1,14 @@
 bootstrap:docker
 From:ubuntu
 
-% files
-environment /environment
-
 %post
 
 export DRIVER_VERSION=375.66
-echo "export DRIVER_VERSION=375.66" >> /environment
+echo "DRIVER_VERSION=375.66" >> /environment
+echo "export DRIVER_VERSION" >> /environment
+
+echo "LD_LIBRARY_PATH=/host-libs:\$LD_LIBRARY_PATH" >>/environment
+echo "export LD_LIBRARY_PATH" >>/environment
 
 apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -19,6 +20,8 @@ apt-get update && apt-get install -y --no-install-recommends \
         pkg-config \
         python \
         python-dev \
+        python-pip \
+        python-setuptools \
         rsync \
         software-properties-common \
         unzip \
@@ -28,11 +31,12 @@ apt-get update && apt-get install -y --no-install-recommends \
 apt-get clean 
 rm -rf /var/lib/apt/lists/*
 
-curl -O https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-rm get-pip.py
+pip --no-cache-dir install \
+        --upgrade \
+        pip
 
 pip --no-cache-dir install \
+        --upgrade \
         ipykernel \
         jupyter \
         matplotlib \

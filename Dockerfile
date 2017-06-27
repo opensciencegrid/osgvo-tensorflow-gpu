@@ -5,8 +5,13 @@ FROM ubuntu
 MAINTAINER Mats Rynge <rynge@isi.edu>
 
 ADD environment /environment
+ADD exec        /.exec
+ADD run         /.run
+ADD shell       /.shell
 
 ENV DRIVER_VERSION 375.66
+
+RUN chmod 755 /.exec /.run /.shell 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -18,6 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         pkg-config \
         python \
         python-dev \
+        python-pip \
+        python-setuptools \
         rsync \
         software-properties-common \
         unzip \
@@ -27,11 +34,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
+RUN pip --no-cache-dir install \
+        --upgrade \
+        pip
 
 RUN pip --no-cache-dir install \
+        --upgrade \
         ipykernel \
         jupyter \
         matplotlib \
