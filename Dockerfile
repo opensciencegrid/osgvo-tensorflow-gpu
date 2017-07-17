@@ -1,6 +1,4 @@
-FROM ubuntu
-
-# this is a merge from the tensorflow-gpu and the HCC gpu images
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 MAINTAINER Mats Rynge <rynge@isi.edu>
 
@@ -9,12 +7,12 @@ ADD exec        /.exec
 ADD run         /.run
 ADD shell       /.shell
 
-ENV DRIVER_VERSION 375.66
+RUN apt-get update && apt-get upgrade -y
 
-RUN chmod 755 /.exec /.run /.shell 
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get install -y -q \
         build-essential \
+        cuda-drivers \
         curl \
         libfreetype6-dev \
         libpng12-dev \
@@ -23,49 +21,42 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         pkg-config \
         python \
         python-dev \
-        python-pip \
-        python-setuptools \
         rsync \
         software-properties-common \
         unzip \
+        zip \
+        zlib1g-dev \
+        openjdk-8-jdk \
+        openjdk-8-jre-headless \
         vim \
         wget \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip --no-cache-dir install \
-        --upgrade \
-        pip
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
 
 RUN pip --no-cache-dir install \
-        --upgrade \
+        h5py \
+        ipykernel \
         ipykernel \
         jupyter \
+        jupyter \
+        matplotlib \
         matplotlib \
         numpy \
-        scipy \
-        sklearn \
+        numpy \
+        pandas \
         pandas \
         Pillow \
+        scipy \
+        scipy \
+        sklearn \
+        sklearn \
         && \
     python -m ipykernel.kernelspec
-
-# install cuda 
-RUN cd /tmp && \
-    # Download run file
-    wget -nv https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run -o /dev/null && \
-    # The driver version must match exactly what's installed on the GPU nodes, so install it separately
-    wget -nv http://us.download.nvidia.com/XFree86/Linux-x86_64/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
-
-# Make the run file executable and extract
-RUN cd /tmp && chmod +x cuda_8.0.44_linux-run NVIDIA-Linux-x86_64-$DRIVER_VERSION.run && ./cuda_8.0.44_linux-run -extract=`pwd` && \
-    # Install CUDA drivers (silent, no kernel)
-    ./NVIDIA-Linux-x86_64-$DRIVER_VERSION.run -s --no-kernel-module && \
-     # Install toolkit (silent)
-     ./cuda-linux64-rel-*.run -noprompt && \
-    # Clean up
-    rm -rf /tmp/cuda* /tmp/NVIDIA*
 
 RUN echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
 

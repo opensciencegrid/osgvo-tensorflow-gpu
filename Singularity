@@ -1,17 +1,15 @@
 bootstrap:docker
-From:ubuntu
+From:nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 %post
 
-export DRIVER_VERSION=375.66
-echo "DRIVER_VERSION=375.66" >> /environment
-echo "export DRIVER_VERSION" >> /environment
-
-echo "LD_LIBRARY_PATH=/host-libs:\$LD_LIBRARY_PATH" >>/environment
+echo "LD_LIBRARY_PATH=/host-libs:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda-8.0/lib64:\$LD_LIBRARY_PATH" >>/environment
 echo "export LD_LIBRARY_PATH" >>/environment
 
-apt-get update && apt-get install -y --no-install-recommends \
+export DEBIAN_FRONTEND=noninteractive && \
+    apt-get install -y -q \
         build-essential \
+        cuda-drivers \
         curl \
         libfreetype6-dev \
         libpng12-dev \
@@ -20,46 +18,42 @@ apt-get update && apt-get install -y --no-install-recommends \
         pkg-config \
         python \
         python-dev \
-        python-pip \
-        python-setuptools \
         rsync \
         software-properties-common \
         unzip \
+        zip \
+        zlib1g-dev \
+        openjdk-8-jdk \
+        openjdk-8-jre-headless \
         vim \
-        wget \
+        wget 
 
 apt-get clean 
 rm -rf /var/lib/apt/lists/*
 
-pip --no-cache-dir install \
-        --upgrade \
-        pip
+curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
 
 pip --no-cache-dir install \
-        --upgrade \
+        h5py \
+        ipykernel \
         ipykernel \
         jupyter \
+        jupyter \
+        matplotlib \
         matplotlib \
         numpy \
-        scipy \
-        sklearn \
+        numpy \
+        pandas \
         pandas \
         Pillow \
+        scipy \
+        scipy \
+        sklearn \
+        sklearn
 
 python -m ipykernel.kernelspec
-
-# install cuda
-# The driver version must match exactly what's installed on the GPU nodes, so install it separately
-cd /tmp && \
-    wget -nv https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run -o /dev/null && \
-    wget -nv http://us.download.nvidia.com/XFree86/Linux-x86_64/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
-
-# Make the run file executable and extract
-# Install CUDA drivers (silent, no kernel)
-cd /tmp && chmod +x cuda_8.0.44_linux-run NVIDIA-Linux-x86_64-$DRIVER_VERSION.run && ./cuda_8.0.44_linux-run -extract=`pwd` && \
-    ./NVIDIA-Linux-x86_64-$DRIVER_VERSION.run -s --no-kernel-module && \
-     ./cuda-linux64-rel-*.run -noprompt && \
-    rm -rf /tmp/cuda* /tmp/NVIDIA*
 
 echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
 echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
