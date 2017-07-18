@@ -7,10 +7,12 @@ ADD exec        /.exec
 ADD run         /.run
 ADD shell       /.shell
 
-RUN apt-get update && apt-get upgrade -y
+RUN chmod 755 .exec .run .shell
+
+RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get install -y -q \
+    apt-get install -y --allow-unauthenticated \
         build-essential \
         cuda-drivers \
         curl \
