@@ -47,25 +47,15 @@ curl -O https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     rm get-pip.py
 
-echo $PATH
-which pip
-
 pip --no-cache-dir install \
         h5py \
         ipykernel \
-        ipykernel \
-        jupyter \
         jupyter \
         matplotlib \
-        matplotlib \
         numpy \
-        numpy \
-        pandas \
         pandas \
         Pillow \
         scipy \
-        scipy \
-        sklearn \
         sklearn
 
 python -m ipykernel.kernelspec
@@ -83,6 +73,32 @@ pip install --upgrade keras
 # see https://github.com/singularityware/singularity/issues/611
 mkdir -p /host-libs
 echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
+
+#############################
+# now do the same for python3
+
+curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python3 get-pip.py && \
+    rm get-pip.py
+
+pip3 --no-cache-dir install \
+        h5py \
+        ipykernel \
+        jupyter \
+        matplotlib \
+        numpy \
+        pandas \
+        Pillow \
+        scipy \
+        sklearn
+
+python3 -m ipykernel.kernelspec
+
+# Install TensorFlow GPU version
+pip3 install --upgrade tensorflow-gpu
+
+# keras
+pip3 install --upgrade keras
 
 # build info
 echo "Timestamp:" `date --utc` | tee /image-build-info.txt
