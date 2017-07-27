@@ -23,6 +23,7 @@ export DEBIAN_FRONTEND=noninteractive && \
         build-essential \
         cuda-drivers \
         curl \
+        git \
         libfreetype6-dev \
         libpng12-dev \
         libzmq3-dev \
@@ -42,6 +43,15 @@ export DEBIAN_FRONTEND=noninteractive && \
 
 apt-get clean 
 rm -rf /var/lib/apt/lists/*
+
+# bazel is required for some TensorFlow projects
+echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" >/etc/apt/sources.list.d/bazel.list
+curl https://bazel.build/bazel-release.pub.gpg | apt-key add -
+
+export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install -y --allow-unauthenticated \
+        bazel
 
 curl -O https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
