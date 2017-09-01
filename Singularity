@@ -110,6 +110,12 @@ pip3 install --upgrade tensorflow-gpu
 # keras
 pip3 install --upgrade keras
 
+# root
+cd /opt && \
+    wget -nv https://root.cern.ch/download/root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz && \
+    tar xzf root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz && \
+    rm -f root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz
+
 # build info
 echo "Timestamp:" `date --utc` | tee /image-build-info.txt
 
