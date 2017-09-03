@@ -19,6 +19,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         git \
         libfreetype6-dev \
         libpng12-dev \
+        libxpm-dev \
         libzmq3-dev \
         module-init-tools \
         pkg-config \
