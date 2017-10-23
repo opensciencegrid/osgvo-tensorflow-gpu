@@ -76,11 +76,6 @@ RUN pip install --upgrade tensorflow-gpu
 # keras
 RUN pip install --upgrade keras
 
-# make sure we have a way to bind host provided libraries
-# see https://github.com/singularityware/singularity/issues/611
-RUN mkdir -p /host-libs && \
-    echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
-
 #############################
 # now do the same for python3
 
@@ -106,6 +101,14 @@ RUN pip3 install --upgrade tensorflow-gpu
 
 # keras
 RUN pip3 install --upgrade keras
+
+#############################
+
+# make sure we have a way to bind host provided libraries
+# see https://github.com/singularityware/singularity/issues/611
+RUN mkdir -p /host-libs && \
+    echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
+
 
 # root
 RUN cd /opt && \
