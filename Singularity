@@ -107,6 +107,9 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
     # see https://github.com/singularityware/singularity/issues/611
     mkdir -p /host-libs
     echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
+
+    # required directories
+    mkdir -p /cvmfs
     
     # root
     cd /opt && \

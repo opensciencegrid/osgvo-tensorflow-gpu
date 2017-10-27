@@ -109,6 +109,8 @@ RUN pip3 install --upgrade keras
 RUN mkdir -p /host-libs && \
     echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
 
+# required directories
+RUN mkdir -p /cvmfs
 
 # root
 RUN cd /opt && \
