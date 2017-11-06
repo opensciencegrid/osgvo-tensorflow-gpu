@@ -116,6 +116,23 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
         wget -nv https://root.cern.ch/download/root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz && \
         tar xzf root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz && \
         rm -f root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz
+
+    # xrootd
+    cd /opt && \
+        wget http://xrootd.org/download/v4.7.1/xrootd-4.7.1.tar.gz && \
+        tar xzf xrootd-4.7.1.tar.gz && \
+        cd xrootd-4.7.1 && \
+        mkdir build && \
+        cd  build && \
+        cmake /opt/xrootd-4.7.1 -DCMAKE_INSTALL_PREFIX=/opt/xrootd -DENABLE_PERL=FALSE && \
+        make && \
+        make install && \
+        cd /opt && \
+        rm -rf xrootd-4.7.1.tar.gz xrootd-4.7.1
+    
+    # stashcp
+    cd /opt && \
+        git clone https://github.com/opensciencegrid/StashCache.git
     
     # build info
     echo "Timestamp:" `date --utc` | tee /image-build-info.txt
