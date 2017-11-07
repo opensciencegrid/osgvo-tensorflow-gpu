@@ -21,6 +21,7 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
             git \
             libfreetype6-dev \
             libpng12-dev \
+            libssl-dev \
             libxpm-dev \
             libzmq3-dev \
             module-init-tools \
