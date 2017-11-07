@@ -14,6 +14,7 @@ RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --allow-unauthenticated \
         build-essential \
+        cmake \
         cuda-drivers \
         curl \
         git \

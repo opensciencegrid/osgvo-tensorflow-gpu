@@ -15,6 +15,7 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
     export DEBIAN_FRONTEND=noninteractive && \
         apt-get install -y --allow-unauthenticated \
             build-essential \
+            cmake \
             cuda-drivers \
             curl \
             git \
