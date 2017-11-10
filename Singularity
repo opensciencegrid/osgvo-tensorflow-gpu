@@ -28,7 +28,10 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
             pkg-config \
             python \
             python-dev \
+            python-tk \
             python3 \
+            python3-dev \
+            python3-tk \
             rsync \
             software-properties-common \
             unzip \
