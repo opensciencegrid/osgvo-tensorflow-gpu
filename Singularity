@@ -110,7 +110,7 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
     
     # make sure we have a way to bind host provided libraries
     # see https://github.com/singularityware/singularity/issues/611
-    mkdir -p /host-libs
+    mkdir -p /host-libs /etc/OpenCL/vendors
     echo "/host-libs/" >/etc/ld.so.conf.d/000-host-libs.conf
 
     # required directories
