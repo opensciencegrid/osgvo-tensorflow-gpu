@@ -9,9 +9,8 @@ ADD shell       /.shell
 
 RUN chmod 755 .exec .run .shell
 
-RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
-
 RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && apt-get upgrade -y --allow-unauthenticated && \
     apt-get install -y --allow-unauthenticated \
         build-essential \
         cmake \
@@ -70,13 +69,14 @@ RUN pip --no-cache-dir install \
         && \
     python -m ipykernel.kernelspec
 
-RUN echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
+RUN echo "/usr/local/cuda/lib64/" >/etc/ld.so.conf.d/cuda.conf
 
 # For CUDA profiling, TensorFlow requires CUPTI.
 RUN echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version.
-RUN pip install --upgrade tensorflow-gpu
+RUN pip uninstall tensorflow-gpu || true
+RUN pip install --upgrade tensorflow-gpu==1.4
 
 # keras
 RUN pip install --upgrade keras
@@ -102,7 +102,8 @@ RUN pip3 --no-cache-dir install \
     python3 -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version.
-RUN pip3 install --upgrade tensorflow-gpu
+RUN pip3 uninstall tensorflow-gpu || true
+RUN pip3 install --upgrade tensorflow-gpu==1.4
 
 # keras
 RUN pip3 install --upgrade keras

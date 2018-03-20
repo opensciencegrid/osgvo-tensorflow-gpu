@@ -3,16 +3,15 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
 %environment
 
-    LD_LIBRARY_PATH=/host-libs:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda-8.0/lib64
+    LD_LIBRARY_PATH=/host-libs:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64
     export LD_LIBRARY_PATH
-    PATH=/usr/local/cuda-8.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+    PATH=/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
     export PATH
 
 %post
-
-    apt-get update && apt-get upgrade -y --allow-unauthenticated
     
     export DEBIAN_FRONTEND=noninteractive && \
+        apt-get update && apt-get upgrade -y --allow-unauthenticated && \
         apt-get install -y --allow-unauthenticated \
             build-essential \
             cmake \
@@ -71,11 +70,12 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
     
     python -m ipykernel.kernelspec
     
-    echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
+    echo "/usr/local/cuda/lib64/" >/etc/ld.so.conf.d/cuda.conf
     echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
     
     # Install TensorFlow GPU version
-    pip install --upgrade tensorflow-gpu
+    pip uninstall tensorflow-gpu || true
+    pip install --upgrade tensorflow-gpu==1.4
     
     # keras
     pip install --upgrade keras
@@ -101,7 +101,8 @@ From:nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
     python3 -m ipykernel.kernelspec
     
     # Install TensorFlow GPU version
-    pip3 install --upgrade tensorflow-gpu
+    pip3 uninstall tensorflow-gpu || true
+    pip3 install --upgrade tensorflow-gpu==1.4
     
     # keras
     pip3 install --upgrade keras
