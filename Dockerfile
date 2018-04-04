@@ -23,6 +23,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libxpm-dev \
         libzmq3-dev \
         module-init-tools \
+	nvidia-modprobe \
         pkg-config \
         python \
         python-dev \
