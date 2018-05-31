@@ -23,7 +23,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libxpm-dev \
         libzmq3-dev \
         module-init-tools \
-	nvidia-modprobe \
         pkg-config \
         python \
         python-dev \
@@ -82,6 +81,7 @@ RUN pip install --upgrade tensorflow-gpu==1.4
 # keras
 RUN pip install --upgrade keras
 
+
 #############################
 # now do the same for python3
 
@@ -118,6 +118,10 @@ RUN mkdir -p /host-libs /etc/OpenCL/vendors && \
 
 # required directories
 RUN mkdir -p /cvmfs
+
+# Required to get nv Singularity option wokring
+RUN touch /bin/nvidia-smi 
+RUN mkdir -p /.singularity.d
 
 # root
 RUN cd /opt && \
