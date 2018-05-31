@@ -118,7 +118,7 @@ RUN mkdir -p /host-libs /etc/OpenCL/vendors && \
 # required directories
 RUN mkdir -p /cvmfs
 
-# Required to get nv Singularity option wokring
+# Required to get nv Singularity option working
 RUN touch /bin/nvidia-smi
 RUN chmod +x /bin/nvidia-smi
 RUN mkdir -p /.singularity.d/libs
