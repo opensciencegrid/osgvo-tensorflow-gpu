@@ -81,7 +81,6 @@ RUN pip install --upgrade tensorflow-gpu==1.4
 # keras
 RUN pip install --upgrade keras
 
-
 #############################
 # now do the same for python3
 
