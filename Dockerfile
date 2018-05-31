@@ -118,6 +118,11 @@ RUN mkdir -p /host-libs /etc/OpenCL/vendors && \
 # required directories
 RUN mkdir -p /cvmfs
 
+# Required to get nv Singularity option wokring
+RUN touch /bin/nvidia-smi
+RUN chmod +x /bin/nvidia-smi
+RUN mkdir -p /.singularity.d/libs
+
 # root
 RUN cd /opt && \
     wget -nv https://root.cern.ch/download/root_v6.10.02.Linux-ubuntu16-x86_64-gcc5.4.tar.gz && \
