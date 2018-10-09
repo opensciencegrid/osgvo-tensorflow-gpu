@@ -23,6 +23,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libxpm-dev \
         libzmq3-dev \
         module-init-tools \
+        openssh-client \
+        openssh-server \
         pkg-config \
         python \
         python-dev \
