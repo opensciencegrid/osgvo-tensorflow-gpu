@@ -105,7 +105,7 @@ RUN pip3 --no-cache-dir install \
 
 # Install TensorFlow GPU version.
 RUN pip3 uninstall tensorflow-gpu || true
-RUN pip3 install --upgrade tensorflow-gpu==1.4
+RUN pip3 install --upgrade tensorflow-gpu==1.10
 
 # keras
 RUN pip3 install --upgrade keras
