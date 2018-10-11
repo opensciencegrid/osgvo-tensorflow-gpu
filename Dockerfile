@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
 
 MAINTAINER Mats Rynge <rynge@isi.edu>
 
@@ -78,7 +78,7 @@ RUN echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version.
 RUN pip uninstall tensorflow-gpu || true
-RUN pip install --upgrade tensorflow-gpu==1.4
+RUN pip install --upgrade tensorflow-gpu==1.10
 
 # keras
 RUN pip install --upgrade keras
@@ -105,7 +105,7 @@ RUN pip3 --no-cache-dir install \
 
 # Install TensorFlow GPU version.
 RUN pip3 uninstall tensorflow-gpu || true
-RUN pip3 install --upgrade tensorflow-gpu==1.4
+RUN pip3 install --upgrade tensorflow-gpu==1.10
 
 # keras
 RUN pip3 install --upgrade keras
