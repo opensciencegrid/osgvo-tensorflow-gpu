@@ -1,8 +1,9 @@
-FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
 
 RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && apt-get upgrade -y --allow-unauthenticated && \
     apt-get install -y --allow-unauthenticated \
         build-essential \
         cmake \
@@ -15,6 +16,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libxpm-dev \
         libzmq3-dev \
         module-init-tools \
+        openssh-client \
+        openssh-server \
         pkg-config \
         python \
         python-dev \
@@ -61,13 +64,14 @@ RUN pip --no-cache-dir install \
         && \
     python -m ipykernel.kernelspec
 
-RUN echo "/usr/local/cuda-8.0/lib64/" >/etc/ld.so.conf.d/cuda.conf
+RUN echo "/usr/local/cuda/lib64/" >/etc/ld.so.conf.d/cuda.conf
 
 # For CUDA profiling, TensorFlow requires CUPTI.
 RUN echo "/usr/local/cuda/extras/CUPTI/lib64/" >>/etc/ld.so.conf.d/cuda.conf
 
 # Install TensorFlow GPU version.
-RUN pip install --upgrade tensorflow-gpu
+RUN pip uninstall tensorflow-gpu || true
+RUN pip install --upgrade tensorflow-gpu==1.10
 
 # keras
 RUN pip install --upgrade keras
@@ -93,7 +97,8 @@ RUN pip3 --no-cache-dir install \
     python3 -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version.
-RUN pip3 install --upgrade tensorflow-gpu
+RUN pip3 uninstall tensorflow-gpu || true
+RUN pip3 install --upgrade tensorflow-gpu==1.10
 
 # keras
 RUN pip3 install --upgrade keras
@@ -107,6 +112,12 @@ RUN mkdir -p /host-libs /etc/OpenCL/vendors && \
 
 # required directories
 RUN mkdir -p /cvmfs
+
+
+# Required to get nv Singularity option working
+RUN touch /bin/nvidia-smi
+RUN chmod +x /bin/nvidia-smi
+RUN mkdir -p /.singularity.d/libs
 
 # root
 RUN cd /opt && \
