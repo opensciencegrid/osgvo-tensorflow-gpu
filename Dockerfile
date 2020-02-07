@@ -1,14 +1,5 @@
 FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
-MAINTAINER Mats Rynge <rynge@isi.edu>
-
-ADD environment /environment
-ADD exec        /.exec
-ADD run         /.run
-ADD shell       /.shell
-
-RUN chmod 755 .exec .run .shell
-
 RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
