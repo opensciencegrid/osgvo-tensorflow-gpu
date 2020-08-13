@@ -1,10 +1,7 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
 
-RUN apt-get update && apt-get upgrade -y --allow-unauthenticated
-
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && apt-get upgrade -y --allow-unauthenticated && \
-    apt-get install -y --allow-unauthenticated \
+RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
+    apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         cmake \
         curl \
@@ -55,17 +52,25 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libzmq3-dev \
         locales \
         lsb-release \
+        lsb-release \
         make \
         module-init-tools \
         openjdk-8-jdk \
+        openjdk-8-jdk \
         pkg-config \
+        python \
         python3 \
-        python3-dev \
+        python3-markdown \
         python3-pip \
+        python3-requests \
         python3-tk \
+        python3-yaml \
         python-dev \
+        python-markdown \
         python-numpy \
         python-pip \
+        python-requests \
+        python-yaml \
         r-base \
         r-cran-rcpp \
         r-cran-rinside \
@@ -76,14 +81,14 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         vim \
         wget \
         && \
-    apt-get clean 
+    apt-get clean
 
-# silly tf 2.1 requires a rt component
+# silly tf requires a rt component
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --allow-unauthenticated \
-        libnvinfer6=6.0.1-1+cuda10.1 \
-        libnvinfer-dev=6.0.1-1+cuda10.1 \
-        libnvinfer-plugin6=6.0.1-1+cuda10.1
+        libnvinfer6=6.0.1-1+cuda10.2 \
+        libnvinfer-dev=6.0.1-1+cuda10.2 \
+        libnvinfer-plugin6=6.0.1-1+cuda10.2
 
 # bazel is required for some TensorFlow projects
 RUN echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" >/etc/apt/sources.list.d/bazel.list && \
@@ -114,7 +119,7 @@ RUN python3 -m pip --no-cache-dir install \
     python3 -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version.
-RUN python3 -m pip install --upgrade tensorflow==2.2 keras
+RUN python3 -m pip install --upgrade tensorflow==2.3 keras
 
 #############################
 
