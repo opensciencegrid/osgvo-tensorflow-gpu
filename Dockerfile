@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn8-devel-ubuntu18.04
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     apt-get update && apt-get install -y --no-install-recommends \
@@ -86,9 +86,9 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
 # silly tf requires a rt component
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --allow-unauthenticated \
-        libnvinfer6=6.0.1-1+cuda10.2 \
-        libnvinfer-dev=6.0.1-1+cuda10.2 \
-        libnvinfer-plugin6=6.0.1-1+cuda10.2
+        libnvinfer6=6.0.1-1+cuda10.1 \
+        libnvinfer-dev=6.0.1-1+cuda10.1 \
+        libnvinfer-plugin6=6.0.1-1+cuda10.1
 
 # bazel is required for some TensorFlow projects
 RUN echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" >/etc/apt/sources.list.d/bazel.list && \
