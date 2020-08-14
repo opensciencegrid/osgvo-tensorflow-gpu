@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     apt-get update && apt-get install -y --no-install-recommends \
