@@ -1,0 +1,7 @@
+{
+    "opensciencegrid.name": "TensorFlow GPU",
+    "opensciencegrid.description": "TensorFlow image with GPU support",
+    "opensciencegrid.url": "https://www.tensorflow.org/",
+    "opensciencegrid.category": "Tools",
+    "opensciencegrid.definition_url": "https://github.com/opensciencegrid/osgvo-tensorflow-gpu"
+}

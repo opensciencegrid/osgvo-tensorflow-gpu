@@ -1,5 +1,11 @@
 FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 
+LABEL opensciencegrid.name="TensorFlow GPU"
+LABEL opensciencegrid.description="TensorFlow image with GPU support"
+LABEL opensciencegrid.url="https://www.tensorflow.org/"
+LABEL opensciencegrid.category="Tools"
+LABEL opensciencegrid.definition_url="https://github.com/opensciencegrid/osgvo-tensorflow-gpu"
+
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
